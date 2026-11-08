@@ -83,7 +83,7 @@ final class AnisetteDataHelper
             if let routingInfo = json["X-Apple-I-MD-RINFO"] { formattedJSON["routingInfo"] = routingInfo }
             
             if v3 {
-                formattedJSON["deviceDescription"] = self.clientInfo!
+                formattedJSON["deviceDescription"] = AppleRequestIdentity.sanitizedClientInfo(self.clientInfo!)
                 formattedJSON["localUserID"] = self.mdLu!
                 formattedJSON["deviceUniqueIdentifier"] = self.deviceId!
                 
@@ -397,7 +397,10 @@ final class AnisetteDataHelper
                 if let clientInfo = json["client_info"] {
                     self.printOut("Server is V3")
                     
-                    self.clientInfo = clientInfo
+                    // Apple's GSA edge rejects any client info naming com.apple.dt.Xcode
+                    // (503 / -80045), the same root cause as SideStore#1506. Some anisette
+                    // servers still hand out Xcode-flavoured strings, so normalise them.
+                    self.clientInfo = AppleRequestIdentity.sanitizedClientInfo(clientInfo)
                     self.userAgent = json["user_agent"]!
                     self.printOut("Client-Info: \(self.clientInfo!)")
                     self.printOut("User-Agent: \(self.userAgent!)")

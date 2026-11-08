@@ -370,9 +370,9 @@
 /* Begin XCRemoteSwiftPackageReference section */
 		4E9544CF30558D4400540EF8 /* XCRemoteSwiftPackageReference "StosSign" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/stossy11/StosSign";
+			repositoryURL = "https://github.com/sheltonsilas/StosSign";
 			requirement = {
-				branch = main;
+				branch = "fix/gsa-client-identity";
 				kind = branch;
 			};
 		};
